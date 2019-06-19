@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
                     features = ".",
                     monochrome = true,
                     glue = "com/glue",
-                    plugin = {"pretty", "junit:output.xml"}
+                		plugin = {"pretty", "html:target/cucumber-html-report", "json:target/cucumber-report.json"}
                 )
 public class RunTest {
 }
