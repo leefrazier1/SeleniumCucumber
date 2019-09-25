@@ -1,0 +1,14 @@
+image: maven:3.3.9
+pipelines:
+  default:
+    - step:
+        name: Prepare and Execute Pipeline
+        script:
+          - mvn -version
+    - step:
+        name: Submit Execution Results to qTest Pulse
+        script:
+          - cd "$WORKSPACE/target"
+          - logs=$(<cucumber-report.json) #Read in file
+          - echo ${logs}
+          - curl -X POST "https://pulse-api-us-east-1.qtestnet.com/webhook/5c6da5b612986c17a1713131" -H "Content-Type:application/x-www-form-urlencoded" -H "cache-control:no-cache"
