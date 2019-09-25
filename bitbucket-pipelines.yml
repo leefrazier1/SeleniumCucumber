@@ -4,11 +4,14 @@ pipelines:
     - step:
         name: Prepare and Execute Pipeline
         script:
-          - mvn test
+          - mvn -version
     - step:
         name: Submit Execution Results to qTest Pulse
+        artifacts: # defining the artifacts to be passed to each future step.
+           - dist/**
+           - reports/*.json
         script:
           - cd "$WORKSPACE/target"
-          - logs=$(<cucumber-report.json) #Read in file
+          - logs=$(reports/cucumber-report.json) #Read in file
           - echo ${logs}
-          - curl -X POST "https://pulse-7.qtestnet.com/webhook/f23f9005-26e7-4862-8fe4-9840d7563b35" -H "Content-Type:application/x-www-form-urlencoded" -H "cache-control:no-cache"
+          - curl -X POST "https://pulse-api-us-east-1.qtestnet.com/webhook/5c6da5b612986c17a1713131" -H "Content-Type:application/x-www-form-urlencoded" -H "cache-control:no-cache"
